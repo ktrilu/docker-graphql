@@ -35,15 +35,18 @@ jobs:
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "login finalizado"
-        echo "version $NEW_VERSION"
         
-    # - name: Docker build image
-    #   run: |
-    #     docker build -t ktrilu/docker-graphql:0.0.2 .
+    - name: Docker build image
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
+      run: |
+        docker build -t ktrilu/docker-graphql:$NEW_VERSION .
+        docker build -t ktrilu/docker-graphql .
         
-    # - name: Docker push image
-    #   run: |
-    #     docker push ktrilu/docker-graphql:0.0.2
+    - name: Docker push image
+      run: |
+        docker push ktrilu/docker-graphql:$NEW_VERSION
+        docker push ktrilu/docker-graphql
 
    
       
