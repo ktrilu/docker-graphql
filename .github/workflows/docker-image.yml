@@ -44,6 +44,8 @@ jobs:
         docker build -t ktrilu/docker-graphql .
         
     - name: Docker push image
+      env:
+          NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
         docker push ktrilu/docker-graphql:$NEW_VERSION
         docker push ktrilu/docker-graphql
